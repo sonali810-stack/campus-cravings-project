@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dynamic Cart Page</title>
+<style>
+    /* Basic styling for the cart page */
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+    header {
+        background-color: #333;
+        color: #fff;
+        padding: 20px;
+        text-align: center;
+    }
+    .container {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+    }
+    .cart-items {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .cart-item {
+        display: flex;
+        align-items: center;
+        margin: 10px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #fff;
+    }
+    .cart-item img {
+        width: 100px;
+        height: auto;
+        margin-right: 10px;
+    }
+    .item-details h3 {
+        margin: 0;
+    }
+    .item-details p {
+        margin: 5px 0;
+    }
+    .add-to-cart-btn {
+        display: flex;
+        align-items: center;
+        padding: 5px 10px;
+        background-color: #333;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-left: auto;
+    }
+    .add-to-cart-btn:hover {
+        background-color: #555;
+    }
+    .counter {
+        display: flex;
+        align-items: center;
+        margin-left: 10px;
+    }
+    .counter button {
+        padding: 2px 5px;
+        background-color: #555;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin: 0 3px;
+    }
+    .cart-total {
+        text-align: right;
+        margin-top: 20px;
+    }
+    #total-price {
+        font-weight: bold;
+    }
+    #checkout-btn {
+        display: block;
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #333;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    #checkout-btn:hover {
+        background-color: #555;
+    }
+</style>
+</head>
+<body>
+
+<header>
+    <h1>Shopping Cart</h1>
+</header>
+
+<div class="container">
+    <div class="cart-items">
+        <!-- Cart items will be dynamically added here -->
+    </div>
+    <div class="cart-total">
+        <h2>Total:</h2>
+        <p id="total-price">$0.00</p>
+    </div>
+    <button id="checkout-btn">Checkout</button>
+</div>
+
+<script>
+    // Array to store cart items
+    let cart = [];
+
+    // Function to update total price
+    function updateTotalPrice() {
+        let totalPrice = 0;
+        cart.forEach(item => {
+            totalPrice += item.price * item.quantity;
+        });
+        document.getElementById('total-price').textContent = '$' + totalPrice.toFixed(2);
+    }
+
+    // Function to add item to cart
+    function addItemToCart(item) {
+        // Check if item already exists in cart
+        const existingItem = cart.find(cartItem => cartItem.id === item.id);
+        if (existingItem) {
+            existingItem.quantity++;
+        } else {
+            cart.push({ ...item, quantity: 1 });
+        }
+        renderCart();
+        updateTotalPrice();
+    }
+
+    // Function to increment item quantity
+    function incrementQuantity(index) {
+        cart[index].quantity++;
+        renderCart();
+        updateTotalPrice();
+    }
+
+    // Function to decrement item quantity
+    function decrementQuantity(index) {
+        if (cart[index].quantity > 1) {
+            cart[index].quantity--;
+            renderCart();
+            updateTotalPrice();
+        }
+    }
+
+    // Function to render cart items
+    function renderCart() {
+        const cartItemsContainer = document.querySelector('.cart-items');
+        cartItemsContainer.innerHTML = '';
+        cart.forEach((item, index) => {
+            const cartItemElement = document.createElement('div');
+            cartItemElement.classList.add('cart-item');
+            cartItemElement.innerHTML = `
+                <img src="${item.image}" alt="${item.name}">
+                <div class="item-details">
+                    <h3>${item.name}</h3>
+                    <p>Price: $${item.price.toFixed(2)}</p>
+                    <div class="counter">
+                        <button onclick="decrementQuantity(${index})">-</button>
+                        <span>${item.quantity}</span>
+                        <button onclick="incrementQuantity(${index})">+</button>
+                    </div>
+                </div>
+            `;
+            cartItemsContainer.appendChild(cartItemElement);
+        });
+    }
+
+    // Dummy data for menu items (replace with actual data)
+    const menuItems = [
+        { id: 1, name: 'Burger', price: 10.00, image: 'Images/burger.jpg' },
+        { id: 2, name: 'Chowmein', price: 15.00, image: 'Images/chowmein.jpg' },
+        // Add more menu items here...
+    ];
+
+    // Render menu items
+    menuItems.forEach(item => {
+        const menuItemElement = document.createElement('div');
+        menuItemElement.classList.add('menu-item');
+        menuItemElement.innerHTML = `
+            <img src="${item.image}" alt="${item.name}">
+            <div class="item-details">
+                <h3>${item.name}</h3>
+                <p>Price: $${item.price.toFixed(2)}</p>
+                <button class="add-to-cart-btn" onclick="addItemToCart(${JSON.stringify(item)})">Add to Cart</button>
+            </div>
+        `;
+        document.body.appendChild(menuItemElement);
+    });
+</script>
+
+</body>
+</html>

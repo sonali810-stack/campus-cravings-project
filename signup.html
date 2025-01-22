@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+    <!-- Firebase JavaScript SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        form {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 8px;
+            margin: 6px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button[type="button"] {
+            width: 100%;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button[type="button"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1></h1>
+    <form id="signupForm">
+        <label for="signupName">Email:</label>
+        <input type="email" id="signupName" required><br><br>
+        <label for="signupPassword">Password:</label>
+        <input type="password" id="signupPassword" minlength="6" required><br><br>
+        <button type="button" id="signupButton">Signup</button>
+    </form>
+
+    <!-- JavaScript to handle user signup -->
+    <script type="module">
+        // Import the necessary Firebase modules
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
+        // Your Firebase configuration (replace with your own config)
+        const firebaseConfig = {
+        apiKey: "AIzaSyA4AB6OKHTicA0arr5MrES5dqq2VstXrgM",
+        authDomain: "campus-cravings-c4327.firebaseapp.com",
+        databaseURL: "https://campus-cravings-c4327-default-rtdb.firebaseio.com",
+        projectId: "campus-cravings-c4327",
+        storageBucket: "campus-cravings-c4327.appspot.com",
+        messagingSenderId: "737267139561",
+        appId: "1:737267139561:web:9101743d1917b0c86a0178",
+        measurementId: "G-BD5KZZ2LD9"
+    };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // Function to handle user signup
+        document.getElementById("signupButton").addEventListener('click', function(e) {
+            e.preventDefault();
+
+            const email = document.getElementById("signupName").value;
+            const password = document.getElementById("signupPassword").value;
+
+            // Sign up with email and password
+            createUserWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                // Signup successful
+                const user = userCredential.user;
+                alert("Signup Successful!");
+                // Redirect to login page
+                window.location.href = "login.html";
+            })
+            .catch((error) => {
+                // Handle errors
+                const errorMessage = error.message;
+                console.error(errorMessage);
+                alert(errorMessage);
+            });
+        });
+    </script>
+</body>
+</html>

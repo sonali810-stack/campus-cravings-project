@@ -1,0 +1,120 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<script src="https://www.gstatic.com/firebasejs/4.1.3/firebase.js"></script>
+<script src="script.js"></script>
+</head>
+<body>
+
+<button onClick="pushData()">Add data to Firebase</button>
+<button onClick="setData()">Update data to Firebase</button>
+<input type="value" id="dataValue"></input>
+
+</body>
+</html>
+
+<script>
+// Initialize Firebase
+var config = {
+    apiKey: "AIzaSyA4AB6OKHTicA0arr5MrES5dqq2VstXrgM",
+    authDomain: "campus-cravings-c4327.firebaseapp.com",
+    databaseURL: "https://campus-cravings-c4327-default-rtdb.firebaseio.com",
+    projectId: "campus-cravings-c4327",
+    storageBucket: "campus-cravings-c4327.appspot.com",
+    messagingSenderId: "737267139561",
+    appId: "1:737267139561:web:9101743d1917b0c86a0178",
+    measurementId: "G-BD5KZZ2LD9"
+};
+firebase.initializeApp(config);
+
+var database = firebase.database();
+
+function pushData(){
+  // Menu data
+  var menuData = [
+    {
+      itemName: "Burger",
+      description: "Delicious burger with cheese and vegetables",
+      price: 10.00,
+      imageUrl: "Images/burger.jpg"
+    },
+    {
+      itemName: "Chowmein",
+      description: "Spicy noodles with vegetables and sauces",
+      price: 15.00,
+      imageUrl: "Images/chowmein.jpg"
+    },
+    {
+      itemName: "Bread Omelette",
+      description: "Scrambled eggs with onions and spices served with bread",
+      price: 8.00,
+      imageUrl: "Images/bread-omelette.jpg"
+    },
+    {
+      itemName: "Fried Momos",
+      description: "Fried dumplings filled with vegetables or meat",
+      price: 12.00,
+      imageUrl: "Images/momos.jpg"
+    },
+    {
+      itemName: "Club Sandwich",
+      description: "Layered sandwich with various fillings",
+      price: 20.00,
+      imageUrl: "Images/club-sandwich.jpg"
+    },
+    {
+      itemName: "Egg Wrap",
+      description: "Wrap filled with scrambled eggs and veggies",
+      price: 18.00,
+      imageUrl: "Images/egg-wrap.jpg"
+    },
+    {
+      itemName: "Chilli Potato",
+      description: "Crispy potato fries tossed in spicy sauce",
+      price: 10.00,
+      imageUrl: "Images/chilli-potato.jpg"
+    },
+    {
+      itemName: "French Fries",
+      description: "Classic crispy potato fries",
+      price: 10.00,
+      imageUrl: "Images/French-fries.jpg"
+    },
+    {
+      itemName: "Cold Drinks",
+      description: "Refreshing soft drinks of your choice",
+      price: 10.00,
+      imageUrl: "Images/cold-drink.jpg"
+    },
+    {
+      itemName: "Tea",
+      description: "Hot tea with milk and sugar",
+      price: 10.00,
+      imageUrl: "Images/tea2.jpg"
+    },
+    {
+      itemName: "Coffee",
+      description: "Hot brewed coffee with milk and sugar",
+      price: 10.00,
+      imageUrl: "Images/coffee.jpg"
+    }
+  ];
+
+  // Push the menu data to Firebase
+  menuData.forEach(function(item) {
+    var itemRef = database.ref('/menuItems').push();
+    itemRef.set(item);
+  });
+
+  console.log("Menu data added successfully!");
+}
+
+function setData(){
+  var data = document.getElementById("dataValue").value;
+  var dataRef = database.ref('/setData');
+  console.log(data)
+  dataRef.set({
+    value: data
+  });
+}
+</script>

@@ -1,0 +1,475 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Campus Cravings</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="menu.css">
+    <link rel="stylesheet" href="navBar.css">
+    <link rel="stylesheet" href="footer.css">
+    <script src="https://www.gstatic.com/firebasejs/4.1.3/firebase.js"></script>
+    <script src="script.js"></script>
+
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+
+        .menu-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .menu-item {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+        }
+
+        .menu-item img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin-right: 20px;
+        }
+
+        .menu-item-info {
+            flex-grow: 1;
+        }
+
+        .menu-item-info h2 {
+            margin-top: 0;
+            font-size: 20px;
+        }
+
+        .menu-item-info p {
+            margin-bottom: 10px;
+            color: #666;
+        }
+
+        .menu-item-info .price {
+            font-weight: bold;
+            font-size: 18px;
+            color: #4CAF50;
+        }
+
+        .add-to-cart {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .add-to-cart:hover {
+            background-color: #45a049;
+        }
+
+        .search-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .search-container input[type=text] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            width: 300px;
+        }
+
+        .search-container button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-left: 10px;
+        }
+
+        .search-container button:hover {
+            background-color: #45a049;
+        }
+
+        /* Cart Sidebar */
+        .cart-sidebar {
+            position: fixed;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 100px;
+            background-color: rgba(192, 192, 192, 0.8);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            padding: 10px;
+            overflow-y: auto;
+            z-index: 999;
+            transition: width 0.3s ease-in-out;
+            border-radius: 10px 0 0 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .cart-sidebar.open {
+            width: 300px;
+        }
+
+        .cart-sidebar-icon {
+            font-size: 24px;
+            color: #333;
+        }
+
+        /* Cart Page */
+        .cart-page {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        overflow-y: auto;
+        padding: 20px;
+    }
+
+    .cart-page-content {
+        background-color: #fff;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .cart-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid #ccc;
+        padding: 10px 0;
+    }
+
+    .cart-item-info {
+        flex-grow: 1;
+        margin-right: 20px;
+    }
+
+    .cart-item-info h3 {
+        margin-top: 0;
+        margin-bottom: 5px;
+    }
+
+    .cart-item-info p {
+        margin: 0;
+    }
+
+    .cart-item-quantity {
+        display: flex;
+        align-items: center;
+    }
+
+    .cart-item-quantity button {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    .cart-item-quantity span {
+        margin: 0 10px;
+    }
+
+    .cart-item-remove {
+        background-color: #f44336;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    .cart-total {
+        font-size: 18px;
+        font-weight: bold;
+        margin-top: 20px;
+    }
+
+    .pay-now-btn {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        margin-top: 20px;
+    }
+
+    
+    
+
+        /* Other styles */
+        /* ... */
+    </style>
+</head>
+<body>
+    <header id="newHeader">
+        <div class="logo" id="newLogo">Campus Cravings</div>
+        <div class="hamburger" id="getHam">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
+        <div class="nav-bar" id="hello">
+            <ul>
+                <li><a href="index.html" id="nice" class="">Home</a></li>
+                <li><a href="contact3.html" id="nice" class="">Contact us</a></li>
+                <li><a href="about-us.html" id="nice" class="">About us</a></li>
+                <li><a href="gallaryFull.html" id="nice" class="">Gallery</a></li>
+                <li><a href="login.html" id="nice" class="">Log in/Signup</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <div class="menu-container">
+        <div class="search-container">
+            <input type="text" id="search" placeholder="Search...">
+            <button onclick="searchMenu()">Search</button>
+        </div>
+
+        <div id="menuContainer"></div>
+    </div>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-sidebar" onclick="openCartPage()">
+        <i class="fa fa-shopping-cart cart-sidebar-icon"></i>
+    </div>
+
+    <!-- Cart Page -->
+    <div class="cart-page" id="cartPage">
+        <div class="cart-page-content">
+            <h2>Cart</h2>
+            <div id="cartItems"></div>
+            <div id="cartTotal" class="cart-total">Total: $0.00</div>
+            <button id="payNowBtn" class="pay-now-btn" disabled>Pay Now</button>
+        </div>
+    </div>
+
+    <!-- footer -->
+    <footer id="footer-below">
+        <div class="footer-content">
+            <p>campus cravings &copy;2023. All rights reserved</p>
+            <ul class="socials">
+                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+                <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+            </ul>
+        </div>
+        <div class="footer-bottom">
+            <p>copyright &copy;<a href="#">campus cravings</a></p>
+            <div class="footer-menu">
+                <ul class="f-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about-us.html">About Us</a></li>
+                    <li><a href="contact3.html">Contact Us</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+    <!-- footer ends -->
+
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyA4AB6OKHTicA0arr5MrES5dqq2VstXrgM",
+            authDomain: "campus-cravings-c4327.firebaseapp.com",
+            databaseURL: "https://campus-cravings-c4327-default-rtdb.firebaseio.com",
+            projectId: "campus-cravings-c4327",
+            storageBucket: "campus-cravings-c4327.appspot.com",
+            messagingSenderId: "737267139561",
+            appId: "1:737267139561:web:9101743d1917b0c86a0178",
+            measurementId: "G-BD5KZZ2LD9"
+        };
+        firebase.initializeApp(config);
+
+        var database = firebase.database();
+
+        // Function to fetch and display menu items
+        function displayMenu() {
+            var menuContainer = document.getElementById('menuContainer');
+
+            database.ref('/menuItems').once('value', function(snapshot) {
+                snapshot.forEach(function(childSnapshot) {
+                    var menuItem = childSnapshot.val();
+                    var menuItemHTML = `
+                        <div class="menu-item">
+                            <img src="${menuItem.imageUrl}" alt="${menuItem.itemName}">
+                            <div class="menu-item-info">
+                                <h2>${menuItem.itemName}</h2>
+                                <p>${menuItem.description}</p>
+                                <span class="price">$${menuItem.price.toFixed(2)}</span>
+                                <button class="add-to-cart" onclick="addToCart('${childSnapshot.key}', '${menuItem.itemName}', ${menuItem.price})">Add to Cart</button>
+                            </div>
+                        </div>
+                    `;
+                    menuContainer.innerHTML += menuItemHTML;
+                });
+            });
+        }
+
+        // Call the function to display menu items
+        displayMenu();
+
+        // Function to search menu items
+        function searchMenu() {
+            var searchText = document.getElementById('search').value.toLowerCase();
+            var menuItems = document.querySelectorAll('.menu-item');
+
+            menuItems.forEach(function(item) {
+                var itemName = item.querySelector('h2').innerText.toLowerCase();
+                if (itemName.includes(searchText)) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // Function to add item to cart
+        function addToCart(itemId, itemName, itemPrice) {
+            var cartRef = database.ref('/cart');
+            cartRef.push({
+                itemId: itemId,
+                itemName: itemName,
+                itemPrice: itemPrice,
+                quantity: 1
+            });
+            alert('Item added to cart!');
+            updateCartSidebar();
+        }
+
+        // Function to update cart sidebar
+        function updateCartSidebar() {
+            var cartTotal = 0;
+
+            database.ref('/cart').once('value', function(snapshot) {
+                snapshot.forEach(function(childSnapshot) {
+                    var cartItem = childSnapshot.val();
+                    cartTotal += cartItem.itemPrice * cartItem.quantity;
+                });
+            });
+
+            document.getElementById('payNowBtn').disabled = cartTotal === 0;
+        }
+
+        // Function to increase item quantity
+        function increaseQuantity(itemId) {
+            var cartRef = database.ref('/cart/' + itemId);
+            cartRef.once('value', function(snapshot) {
+                var cartItem = snapshot.val();
+                cartItem.quantity++;
+                cartRef.set(cartItem);
+                updateCartPage();
+            });
+        }
+
+        // Function to decrease item quantity
+        function decreaseQuantity(itemId) {
+            var cartRef = database.ref('/cart/' + itemId);
+            cartRef.once('value', function(snapshot) {
+                var cartItem = snapshot.val();
+                if (cartItem.quantity > 1) {
+                    cartItem.quantity--;
+                    cartRef.set(cartItem);
+                    updateCartPage();
+                } else {
+                    removeFromCart(itemId);
+                }
+            });
+        }
+
+        // Function to remove item from cart
+        function removeFromCart(itemId) {
+            var cartRef = database.ref('/cart/' + itemId);
+            cartRef.remove();
+            alert('Item removed from cart!');
+            updateCartPage();
+        }
+
+        // Function to open cart page
+        function openCartPage() {
+            var cartPage = document.getElementById('cartPage');
+            cartPage.style.display = 'block';
+            updateCartPage();
+        }
+
+        // Function to update cart page
+        function updateCartPage() {
+            var cartItemsContainer = document.getElementById('cartItems');
+            cartItemsContainer.innerHTML = '';
+            var totalAmount = 0;
+
+            database.ref('/cart').once('value', function(snapshot) {
+                snapshot.forEach(function(childSnapshot) {
+                    var cartItem = childSnapshot.val();
+                    var cartItemHTML = `
+                        <div class="cart-item">
+                            <div class="cart-item-info">
+                                <h3>${cartItem.itemName}</h3>
+                                <p>$${cartItem.itemPrice.toFixed(2)}</p>
+                            </div>
+                            <div class="cart-item-quantity">
+                                <button onclick="decreaseQuantity('${childSnapshot.key}')">-</button>
+                                <span>${cartItem.quantity}</span>
+                                <button onclick="increaseQuantity('${childSnapshot.key}')">+</button>
+                            </div>
+                            <button class="cart-item-remove" onclick="removeFromCart('${childSnapshot.key}')">Remove</button>
+                        </div>
+                    `;
+                    cartItemsContainer.innerHTML += cartItemHTML;
+                    totalAmount += cartItem.itemPrice * cartItem.quantity;
+                });
+            });
+
+            document.getElementById('cartTotal').innerText = `Total: $${totalAmount.toFixed(2)}`;
+            document.getElementById('payNowBtn').disabled = totalAmount === 0;
+        }
+
+        // Call the function to update cart sidebar initially
+        updateCartSidebar();
+
+        // Show/hide cart sidebar
+        var cartSidebar = document.querySelector('.cart-sidebar');
+        cartSidebar.addEventListener('click', function() {
+            cartSidebar.classList.toggle('open');
+        });
+
+        // Close cart page
+        window.addEventListener('click', function(event) {
+            var cartPage = document.getElementById('cartPage');
+            if (event.target == cartPage) {
+                cartPage.style.display = 'none';
+            }
+        });
+    </script>
+     </div>
+        
+</body>
+</html>

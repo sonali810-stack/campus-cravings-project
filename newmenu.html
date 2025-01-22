@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Food Menu</title>
+    <!-- footer fonts -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="menu.css">
+    <link rel="stylesheet" href="navBar.css">
+    <link rel="stylesheet" href="footer.css">
+    <style>
+        /* Your existing CSS styles */
+        /* Add CSS for fixed sidebar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 300px; /* Adjust width as needed */
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7); /* Translucent grey background */
+            border-radius: 10px; /* Rounded borders */
+            overflow-y: auto;
+            padding: 20px;
+            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+            z-index: 999;
+            display: none;
+        }
+        .sidebar h2 {
+            margin-top: 0;
+            color: #fff; /* White text */
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .sidebar ul {
+            padding: 0;
+        }
+        .sidebar ul li {
+            list-style-type: none;
+            margin-bottom: 10px;
+            color: #fff; /* White text */
+            font-size: 18px;
+        }
+        #cart-total {
+            font-weight: bold;
+            color: #fff; /* White text */
+            font-size: 20px;
+            margin-top: 20px;
+        }
+        #pay-now {
+            background-color: #ff9900; /* Orange button */
+            color: #fff; /* White text */
+            border: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            border-radius: 5px; /* Rounded borders */
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+        #pay-now:hover {
+            background-color: #ffbf73; /* Darker orange on hover */
+        }
+    </style>
+</head>
+<body>
+    <header id="newHeader">
+        <div class="logo" id="newLogo">Campus Cravings</div>
+        <div class="hamburger" id="getHam">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
+        <div class="nav-bar" id="hello">
+            <ul>
+                <li> 
+                    <a href="index.html" id="nice" class="">Home</a>
+                </li>
+                <li>
+                    <a href="contact3.html" id="nice" class="">Contact us</a>
+                </li>
+                <li>
+                    <a href="about-us.html" id="nice" class="">About us</a>
+                </li> 
+                <li>
+                    <a href="gallaryFull.html" id="nice" class="">Gallery</a>
+                </li>
+                <li>
+                    <a href="login.html" id="nice" class="">Log in/Signup</a>
+                </li>
+            </ul>
+        </div>
+    </header>
+
+    <div class="menu-top">
+        <h1>Food Menu</h1>
+        <input type="text" id="search" placeholder="Search...">
+    </div>
+    <main>
+        <div class="item">
+            <img src="Images/burger.jpg" alt="Burger">
+            <h2>Burger</h2>
+            <p>Burger.</p>
+            <span class="price">$10.00</span>
+            <button class="buy-now">Buy Now</button>
+        </div>
+        <div class="item">
+            <img src="Images/chowmein.jpg" alt="Chowmein">
+            <h2>Chowmein</h2>
+            <p>Chowmein.</p>
+            <span class="price">$15.00</span>
+            <button class="buy-now">Buy Now</button>
+        </div>
+
+        <div class="item">
+            <img src="Images/bread-omelette.jpg" alt="Bread Omelette">
+            <h2>Bread Omelette</h2>
+            <p>Omelette.</p>
+            <span class="price">$8.00</span>
+            <button class="buy-now">Buy Now</button>
+        </div>
+
+        <div class="item">
+            <img src="Images/momos.jpg" alt="Fried Momos">
+            <h2>Fried Momos</h2>
+            <p>Fried Momos.</p>
+            <span class="price">$12.00</span>
+            <button class="buy-now">Buy Now</button>
+        </div>
+
+        <div class="item">
+            <img src="Images/club-sandwich.jpg" alt="Club Sandwich">
+            <h2>Club Sandwich</h2>
+            <p>Club Sandwich.</p>
+            <span class="price">$20.00</span>
+            <button class="buy-now">Buy Now</button>
+        </div>
+
+        <div class="item">
+            <img src="Images/egg-wrap.jpg" alt="Egg Wrap">
+            <h2>Egg Wrap</h2>
+            <p>Egg Wrap.</p>
+            <span class="price">$18.00</span>
+            <button class="buy-now">Buy Now</button>
+        </div>
+
+        <div class="item">
+            <img src="Images/chilli-potato.jpg" alt="Chilli Potato">
+            <h2>Chilli Potato</h2>
+            <p>Chilli Potato.</p>
+            <span class="price">$10.00</span>
+            <button class="buy-now">Buy Now</button>
+        </div>
+
+        <div class="item">
+            <img src="Images/French-fries.jpg" alt="French Fries">
+            <h2>French Fries</h2>
+            <p>French Fries.</p>
+            <span class="price">$10.00</span>
+            <button class="buy-now">Buy Now</button>
+        </div>
+
+        <div class="item">
+            <img src="Images/cold-drink.jpg" alt="Cold Drinks">
+            <h2>Cold Drinks</h2>
+            <p>Soft Drink of your choice.</p>
+            <span class="price">$10.00</span>
+            <button class="buy-now">Buy Now</button>
+        </div>
+
+        <div class="item">
+            <img src="Images/tea2.jpg" alt="Tea">
+            <h2>Tea</h2>
+            <p>Tea.</p>
+            <span class="price">$10.00</span>
+            <button class="buy-now">Buy Now</button>
+        </div>
+
+        <div class="item">
+            <img src="Images/coffee.jpg" alt="Coffee">
+            <h2>Coffee</h2>
+            <p>Coffee.</p>
+            <span class="price">$10.00</span>
+            <button class="buy-now">Buy Now</button>
+        </div>
+        <!-- Add more item divs here -->
+    </main>
+
+    <!-- Fixed sidebar for shopping cart -->
+    <div class="sidebar" id="cart-sidebar">
+        <h2>Shopping Cart</h2>
+        <ul id="cart-items"></ul>
+        <div id="cart-total">Total: $0.00</div>
+        <button id="pay-now">Pay Now</button>
+    </div>
+
+    <footer id="footer-below">
+        <div class="footer-content">
+            <p>Bhook Lagi &copy;2023. All rights reserved</p>
+            <ul class="socials">
+                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+                <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+            </ul>
+        </div>
+        <div class="footer-bottom">
+            <p>copyright &copy;<a href="#">Bhook Lagi</a>  </p>
+                    <div class="footer-menu">
+                      <ul class="f-menu">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about-us.html">About Us</a></li>
+                        <li><a href="contact3.html">Contact Us</a></li>
+                      </ul>
+                    </div>
+        </div>
+    </footer>
+
+    <script>
+        let cart = [];
+        const cartItemsElement = document.getElementById('cart-items');
+        const cartTotalElement = document.getElementById('cart-total');
+
+        function updateCart() {
+            cartItemsElement.innerHTML = '';
+            let total = 0;
+            cart.forEach(item => {
+                const cartItemElement = document.createElement('li');
+                cartItemElement.textContent = `${item.name} - $${item.price.toFixed(2)}`;
+                cartItemsElement.appendChild(cartItemElement);
+                total += item.price;
+            });
+            cartTotalElement.textContent = `Total: $${total.toFixed(2)}`;
+        }
+
+        const buyNowButtons = document.querySelectorAll('.buy-now');
+        buyNowButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const item = {
+                    name: button.parentElement.querySelector('h2').textContent,
+                    price: parseFloat(button.parentElement.querySelector('.price').textContent.replace('$', ''))
+                };
+                cart.push(item);
+                updateCart();
+                document.getElementById('cart-sidebar').style.display = 'block';
+            });
+        });
+
+        document.getElementById('pay-now').addEventListener('click', () => {
+            alert('Payment processed! Thank you for your purchase.');
+            cart = [];
+            updateCart();
+            document.getElementById('cart-sidebar').style.display = 'none';
+        });
+
+        const searchInput = document.getElementById('search');
+        const items = document.querySelectorAll('.item');
+        searchInput.addEventListener('input', function() {
+            const searchQuery = searchInput.value.toLowerCase();
+            for (const item of items) {
+                const itemName = item.querySelector('h2').textContent.toLowerCase();
+                if (itemName.includes(searchQuery)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            }
+        });
+
+        const ham=document.querySelector(".hamburger");
+        ham.addEventListener("click", function(){
+           let navBar=document.querySelector(".nav-bar");
+            navBar.classList.toggle("active");
+        });
+    </script>
+</body>
+</html>
